@@ -1,5 +1,5 @@
 # note on course
-## build react skeleton
+## prepare react skeleton
 1.  npm init 
 2.  (global) npm install -g browserify
 3.  npm install --save babelify
