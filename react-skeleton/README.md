@@ -11,7 +11,7 @@
 ## keep auto compile jsx
 *package.json*
 ```
-script : {
+scripts : {
   "start": "watchify src/main.jsx -v -t [ babelify --presets [ react ] ] -o public/js/main.js",
   ...
 }
