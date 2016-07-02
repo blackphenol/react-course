@@ -1,6 +1,6 @@
 # note on course
 ## prepare react skeleton
-1.  npm init 
+1.  npm init
 2.  (global) npm install -g browserify
 3.  npm install --save babelify
 4.  npm install --save watchify
@@ -15,4 +15,10 @@ scripts : {
   "start": "watchify src/main.jsx -v -t [ babelify --presets [ react ] ] -o public/js/main.js",
   ...
 }
+```
+
+then
+
+```
+npm start
 ```
