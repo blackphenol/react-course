@@ -7,7 +7,11 @@ var List = React.createClass({
       return <ListItem key={index + text} text={text} />;
     };
 
-    return (<ul>{this.props.items.map(createItem)}</ul>)
+    var ulStyle = {
+      margin : '0 5px 0 5px'
+    };
+    
+    return (<ul style={ulStyle} className="list-group">{this.props.items.map(createItem)}</ul>)
   }
 });
 
