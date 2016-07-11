@@ -25146,14 +25146,6 @@ var Page1 = require('./components/Page1.jsx');
 var Page2 = require('./components/Page2.jsx');
 var ListManager = require('./components/ListManager.jsx');
 
-var Todo = React.createClass({
-  displayName: 'Todo',
-
-  render() {
-    return React.createElement(ListManager, { title: 'TODO' });
-  }
-});
-
 var Routes = React.createElement(
   Router,
   { history: appHistory },
@@ -25162,7 +25154,7 @@ var Routes = React.createElement(
     { path: '/', component: Base },
     React.createElement(Route, { path: '/page1', component: Page1 }),
     React.createElement(Route, { path: '/page2', component: Page2 }),
-    React.createElement(Route, { path: '/todo', component: Todo })
+    React.createElement(Route, { path: '/todo', component: ListManager })
   )
 );
 
@@ -25172,33 +25164,37 @@ module.exports = Routes;
 var React = require('react');
 
 var Base = React.createClass({
-  displayName: "Base",
+  displayName: 'Base',
 
   render: function () {
+    var children = React.Children.map(this.props.children, function (child) {
+      return React.cloneElement(child, {
+        title: 'Todo' });
+    });
     return React.createElement(
-      "div",
-      { className: "row" },
+      'div',
+      { className: 'row' },
       React.createElement(
-        "div",
-        { className: "row" },
+        'div',
+        { className: 'row' },
         React.createElement(
-          "h1",
+          'h1',
           null,
-          "Header"
+          'Header'
         )
       ),
       React.createElement(
-        "div",
-        { className: "row" },
-        this.props.children || "Hello World"
+        'div',
+        { className: 'row' },
+        children || "Hello World"
       ),
       React.createElement(
-        "div",
-        { className: "row" },
+        'div',
+        { className: 'row' },
         React.createElement(
-          "h1",
+          'h1',
           null,
-          "Footer"
+          'Footer'
         )
       )
     );
