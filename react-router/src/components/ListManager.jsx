@@ -1,7 +1,7 @@
 var React = require('react');
 var List = require('./List.jsx');
 
-var ListMananger = React.createClass({
+var ListManager = React.createClass({
   getInitialState: function(){
     return {
       items: [],
@@ -76,4 +76,4 @@ var ListMananger = React.createClass({
   }
 });
 
-module.exports = ListMananger;
+module.exports = ListManager;
