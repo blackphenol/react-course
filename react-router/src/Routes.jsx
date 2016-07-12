@@ -13,11 +13,14 @@ var Page1 = require('./components/Page1.jsx');
 var Page2 = require('./components/Page2.jsx');
 var ListManager = require('./components/ListManager.jsx');
 
+/*
+* no good to create component to render another component
 var Todo = React.createClass({
   render(){
     return <ListManager title="TODO" />
   }
 });
+*/
 
 
 var Routes = (
@@ -25,7 +28,8 @@ var Routes = (
     <Route path="/" component={Base}>
       <Route path="/page1" component={Page1} />
       <Route path="/page2" component={Page2} />
-      <Route path="/todo" component={Todo} />
+      {/* this stateless component to pass props is good for me*/}
+      <Route path="/todo" component={() => (<ListManager title="TODO" />)} />
     </Route>
   </Router>
 );

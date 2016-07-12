@@ -25146,13 +25146,14 @@ var Page1 = require('./components/Page1.jsx');
 var Page2 = require('./components/Page2.jsx');
 var ListManager = require('./components/ListManager.jsx');
 
+/*
+* no good to create component to render another component
 var Todo = React.createClass({
-  displayName: 'Todo',
-
-  render() {
-    return React.createElement(ListManager, { title: 'TODO' });
+  render(){
+    return <ListManager title="TODO" />
   }
 });
+*/
 
 var Routes = React.createElement(
   Router,
@@ -25162,7 +25163,7 @@ var Routes = React.createElement(
     { path: '/', component: Base },
     React.createElement(Route, { path: '/page1', component: Page1 }),
     React.createElement(Route, { path: '/page2', component: Page2 }),
-    React.createElement(Route, { path: '/todo', component: Todo })
+    React.createElement(Route, { path: '/todo', component: () => React.createElement(ListManager, { title: 'TODO' }) })
   )
 );
 
