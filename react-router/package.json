@@ -2,7 +2,7 @@
   "name": "react-skeleton",
   "version": "1.0.0",
   "description": "1.  npm init 2.  (global) npm install -g browserify 3.  npm install --save babelify 4.  npm install --save watchify 5.  npm install --save babel-preset-react 6.  npm install --save react 7.  npm install --save react-dom",
-  "main": "index.js",
+  "main": "./server/server.js",
   "scripts": {
     "start": "watchify src/main.jsx -v -t [ babelify --presets [ react ] ] -o public/js/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,6 +12,7 @@
   "dependencies": {
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.3.0",
+    "express": "^4.14.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-router": "^2.5.2",

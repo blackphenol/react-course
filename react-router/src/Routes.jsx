@@ -5,7 +5,7 @@ var Route = ReactRouter.Route;
 var useRouterHistory = ReactRouter.useRouterHistory;
 var History = require('history');
 var createHashHistory = History.createHashHistory;
-
+var browserHistory = ReactRouter.browserHistory;
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
 var Base = require('./components/Base.jsx');
@@ -21,7 +21,7 @@ var Todo = React.createClass({
 
 
 var Routes = (
-  <Router history={appHistory}>
+  <Router history={browserHistory}>
     <Route path="/" component={Base}>
       <Route path="/page1" component={Page1} />
       <Route path="/page2" component={Page2} />
