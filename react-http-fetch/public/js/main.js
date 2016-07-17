@@ -20069,8 +20069,7 @@ var ListMananger = React.createClass({
   },
   componentWillMount: function () {
     if (this.props.service) {
-      httpservice.get(this.props.service).then(function (data) {
-        console.log(data);
+      httpservice.get(this.props.service, 'json').then(function (data) {
         this.setState({ items: data.items });
       }.bind(this));
     }
@@ -20084,7 +20083,9 @@ var ListMananger = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
 
-    if (this.state.newItemText === '' || this.state.newItemText.length < 1) {
+    var that = this;
+    var newItem = this.state.newItemText;
+    if (newItem === '' || newItem.length < 1) {
       this.setState({
         showError: {
           color: 'red',
@@ -20095,10 +20096,23 @@ var ListMananger = React.createClass({
     }
 
     var currentItems = this.state.items;
-
-    currentItems.push(this.state.newItemText);
-
-    this.setState({ itmes: currentItems, newItemText: '', showError: { display: 'none' } });
+    var reqData = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        newItem: newItem
+      })
+    };
+    httpservice.post(this.props.service, reqData).then(function (response) {
+      if (response.status === 200) {
+        currentItems.push(newItem);
+        that.setState({ items: currentItems, newItemText: '', showError: { display: 'none' } });
+      } else {
+        alert('adding fail!');
+      }
+    });
   },
   render: function () {
 
@@ -20110,7 +20124,6 @@ var ListMananger = React.createClass({
 
     if (this.props.headingColor) {
       headingStyle.background = this.props.headingColor;
-      console.log(headingStyle);
     }
 
     return React.createElement(
@@ -20176,13 +20189,30 @@ ReactDOM.render(React.createElement(ListMananger, { title: 'Done', headingColor:
 var Fetch = require('whatwg-fetch');
 
 var baseUrl = 'http://localhost:7788';
+var commonResponse = function (response, resType) {
+  resType = resType ? resType : 'response';
+  if (resType === 'json') {
+    return response.json();
+  } else if (resType === 'text') {
+    return response.text();
+  } else {
+    return response;
+  }
+};
 
 var httpservice = {
-  get: function (url) {
+  get: function (url, resType) {
     return fetch(baseUrl + url).then(function (response) {
-      return response.json();
+      return commonResponse(response, resType);
+    });
+  },
+  post: function (url, reqData, resType) {
+    reqData.method = 'post';
+    return fetch(baseUrl + url, reqData).then(function (response) {
+      return commonResponse(response, resType);
     });
   }
+
 };
 
 module.exports = httpservice;

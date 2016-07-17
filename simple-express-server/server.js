@@ -1,8 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-const port = process.env.PORT || 7788
-
+var port = process.env.PORT || 7788
+var jsonParser = bodyParser.json()
 //Allow all requests from all domains & localhost
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -11,42 +11,10 @@ app.all('/*', function(req, res, next) {
   next();
 });
 
-app.use(bodyParser.json());
+app.use(jsonParser);
 app.use(bodyParser.urlencoded({extended: false}));
 
-var ingredients = [
-    {
-        "id": "234kjw",
-        "text": "Eggs"
-    },
-    {
-        "id": "as82w",
-        "text": "Milk"
-    },
-    {
-        "id": "234sk1",
-        "text": "Bacon"
-    },
-    {
-        "id": "ppo3j3",
-        "text": "Frog Legs"
-    }
-];
-
-
-app.get('/ingredients', function(req, res) {
-    console.log("GET From SERVER");
-    res.send(ingredients);
-});
-
-app.post('/ingredients', function(req, res) {
-    var ingredient = req.body;
-    console.log(req.body);
-    ingredients.push(ingredient);
-    res.status(200).send("Successfully posted ingredient");
-});
-
-var items = {
+var store = {
   todo: {
     items: [
       'dinner at 19:00',
@@ -68,12 +36,30 @@ var items = {
   }
 };
 
-app.get('/items/:func', function(req, resp){
+app.get('/items/:func', function(req, res){
   var result = {'items' : []};
-  if(items[req.params.func]){
-    result = items[req.params.func];
+  if(store[req.params.func]){
+    result = store[req.params.func];
   }
-  resp.status(200).send(result);
+  res.status(200).send(result);
+});
+
+app.post('/items/:func', function(req, res){
+  if(store[req.params.func]){
+    var storeItemGroup = store[req.params.func];
+    var newItem = req.body.newItem;
+    // console.log('content-type:');
+    // console.log(req.get('content-type'));
+    // console.log('body:');
+    // console.log(req.body);
+    if(newItem){
+      storeItemGroup.items.push(newItem);
+      res.sendStatus(200);
+      return;
+    }
+  }
+
+  res.sendStatus(400);
 });
 
 app.listen(port);
