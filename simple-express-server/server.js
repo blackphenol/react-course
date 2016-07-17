@@ -46,12 +46,34 @@ app.post('/ingredients', function(req, res) {
     res.status(200).send("Successfully posted ingredient");
 });
 
-var hotchange = {
-  'hotchange': 'hello!'
+var items = {
+  todo: {
+    items: [
+      'dinner at 19:00',
+      'learn reactjs',
+      'learn node',
+      '洗衣服'
+    ]
+  },
+  doing: {
+    items: [
+      'learn react http fetch',
+    ]
+  },
+  done: {
+    items: [
+      '機車退款',
+      '看死侍'
+    ]
+  }
 };
 
-app.get('/hotchange', function(req, resp){
-  resp.status(200).send(hotchange);
+app.get('/items/:func', function(req, resp){
+  var result = {'items' : []};
+  if(items[req.params.func]){
+    result = items[req.params.func];
+  }
+  resp.status(200).send(result);
 });
 
 app.listen(port);
