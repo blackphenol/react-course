@@ -20012,9 +20012,9 @@ var List = React.createClass({
   displayName: 'List',
 
   render: function () {
-    var createItem = function (text, index) {
+    var liItems = this.props.items.map(function (text, index) {
       return React.createElement(ListItem, { key: index + text, text: text });
-    };
+    });
 
     var ulStyle = {
       margin: '0 5px 0 5px'
@@ -20023,7 +20023,7 @@ var List = React.createClass({
     return React.createElement(
       'ul',
       { style: ulStyle, className: 'list-group' },
-      this.props.items.map(createItem)
+      liItems
     );
   }
 });
