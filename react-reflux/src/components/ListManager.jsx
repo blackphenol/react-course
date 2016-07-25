@@ -52,26 +52,7 @@ var ListMananger = React.createClass({
       return;
     }
 
-    var currentItems = this.state.items;
-    var reqData = {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-              newItem: newItem
-            })
-    };
-    httpservice.post(this.props.service, reqData)
-      .then(function(response){
-        if(response.status === 200){
-          currentItems.push(newItem);
-          that.setState({items: currentItems, newItemText: '', showError: {display: 'none'}});
-        }else{
-          alert('adding fail!');
-        }
-      });
-
+    Actions.postItem(this.props.service, newItem);
   },
   render: function(){
 

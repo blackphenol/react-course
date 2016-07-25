@@ -15,7 +15,15 @@ var ItemStore = Reflux.createStore({
         }.bind(this));
     }
   },
-  postItems: function(service, newItem){
+  postItem: function(service, newItem){
+
+    if(!this.items[service]){
+      this.items[service] = [];
+    }
+
+    this.items[service].push(newItem);
+    this.fireUpdate(service);
+
     var reqData = {
       headers: {
         'Accept': 'application/json',
@@ -28,18 +36,18 @@ var ItemStore = Reflux.createStore({
     httpservice.post(service, reqData)
       .then(function(response){
         if(response.status === 200){
-          currentItems.push(newItem);
-          that.setState({items: currentItems, newItemText: '', showError: {display: 'none'}});
+          this.getItems(service);
         }else{
           alert('adding fail!');
         }
-      })
-      .then(function(){
-        alert('unknow error');
-      });
+      }.bind(this))
+      .catch(function(error){
+        alert('unknow error: ' + error);
+      }.bind(this));
   },
   //Refresh function
   fireUpdate: function(service){
+    //trigger will fire onChange function
     this.trigger(service + 'Change', this.items[service]);
   }
 });

@@ -21455,24 +21455,7 @@ var ListMananger = React.createClass({
       return;
     }
 
-    var currentItems = this.state.items;
-    var reqData = {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        newItem: newItem
-      })
-    };
-    httpservice.post(this.props.service, reqData).then(function (response) {
-      if (response.status === 200) {
-        currentItems.push(newItem);
-        that.setState({ items: currentItems, newItemText: '', showError: { display: 'none' } });
-      } else {
-        alert('adding fail!');
-      }
-    });
+    Actions.postItem(this.props.service, newItem);
   },
   render: function () {
 
@@ -21569,7 +21552,15 @@ var ItemStore = Reflux.createStore({
       }.bind(this));
     }
   },
-  postItems: function (service, newItem) {
+  postItem: function (service, newItem) {
+
+    if (!this.items[service]) {
+      this.items[service] = [];
+    }
+
+    this.items[service].push(newItem);
+    this.fireUpdate(service);
+
     var reqData = {
       headers: {
         'Accept': 'application/json',
@@ -21581,17 +21572,17 @@ var ItemStore = Reflux.createStore({
     };
     httpservice.post(service, reqData).then(function (response) {
       if (response.status === 200) {
-        currentItems.push(newItem);
-        that.setState({ items: currentItems, newItemText: '', showError: { display: 'none' } });
+        this.getItems(service);
       } else {
         alert('adding fail!');
       }
-    }).then(function () {
-      alert('unknow error');
-    });
+    }.bind(this)).catch(function (error) {
+      alert('unknow error: ' + error);
+    }.bind(this));
   },
   //Refresh function
   fireUpdate: function (service) {
+    //trigger will fire onChange function
     this.trigger(service + 'Change', this.items[service]);
   }
 });
