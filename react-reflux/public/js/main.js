@@ -21409,6 +21409,7 @@ var httpservice = require('../services/httpservice');
 var ListMananger = React.createClass({
   displayName: 'ListMananger',
 
+  //onChange function will trigger by ItemStore
   mixins: [Reflux.listenTo(ItemStore, 'onChange')],
   getInitialState: function () {
     return {
@@ -21582,7 +21583,6 @@ var ItemStore = Reflux.createStore({
   },
   //Refresh function
   fireUpdate: function (service) {
-    //trigger will fire onChange function
     this.trigger(service + 'Change', this.items[service]);
   }
 });

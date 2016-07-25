@@ -6,6 +6,7 @@ var ItemStore = require('../reflux/itemStore.jsx');
 var httpservice = require('../services/httpservice');
 
 var ListMananger = React.createClass({
+  //onChange function will trigger by ItemStore
   mixins: [Reflux.listenTo(ItemStore, 'onChange')],
   getInitialState: function(){
     return {

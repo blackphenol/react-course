@@ -47,7 +47,6 @@ var ItemStore = Reflux.createStore({
   },
   //Refresh function
   fireUpdate: function(service){
-    //trigger will fire onChange function
     this.trigger(service + 'Change', this.items[service]);
   }
 });
